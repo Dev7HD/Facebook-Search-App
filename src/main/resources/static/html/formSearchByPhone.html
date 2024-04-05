@@ -1,0 +1,12 @@
+<form id="search-form" class="row g-3 mt-4 needs-validation" action="/searchbyphone" method="get">
+    <div class="form-floating mb-3">
+        <input type="number" onchange="inputValidation(this)" class="form-control" name="phone" id="floatingInput" placeholder="21261234567" required>
+        <div class="invalid-feedback">
+            Please enter the Phone number.
+        </div>
+        <label style="margin-left: 5px" for="floatingInput">Phone number</label>
+    </div>
+    <div class="col-12">
+        <button type="submit" class="btn btn-primary">Search</button>
+    </div>
+</form>

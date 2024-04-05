@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="navbar.html"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Facebook Search App</title>
+
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="container-md mt-5 col-6">
+            <div class="card">
+                <div class="card-header">Search field</div>
+                <div class="card-body">
+                    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" onchange="this.value != '0' ? searchBy(this.value) : console.log('Please select a field');">
+                        <option style="cursor: pointer;" value="0" selected>Select the field</option>
+                        <option style="cursor: pointer;" value="id">ID</option>
+                        <option style="cursor: pointer;" value="phone">Phone</option>
+                        <option style="cursor: pointer;" value="email">Email</option>
+                        <option style="cursor: pointer;" value="lastName">Last Name</option>
+                        <option style="cursor: pointer;" value="fullName">First Name & Last Name</option>
+                    </select>
+                    <div id="Form"></div>
+                </div>
+            </div>
+        </div>
+        <div th:if="${user}">
+            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel">Search result</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
+                        </div>
+                        <div class="modal-body col-12">
+                            <div class="col-12">
+                                <span class="text-success me-2 fw-bold">ID:</span><span class="text-secondary fw-bold" th:text="${user.id}"></span>
+                            </div>
+                            <div class="col-12">
+                                <span class="text-success me-2 fw-bold">Tel:</span><span class="text-secondary fw-bold" th:text="${user.phone}"></span>
+                            </div>
+                            <div class="col-12">
+                                <span class="text-success me-2 fw-bold">First name:</span><span class="text-secondary fw-bold" th:text="${user.firstName}"></span>
+                            </div>
+                            <div class="col-12">
+                                <span class="text-success me-2 fw-bold">Last name:</span><span class="text-secondary fw-bold" th:text="${user.lastName}"></span>
+                            </div>
+                            <div class="col-12">
+                                <span class="text-success me-2 fw-bold">Email:</span><span class="text-secondary fw-bold" th:text="${user.email}"></span>
+                            </div>
+                            <div class="col-12">
+                                <span class="text-success me-2 fw-bold">Birthday:</span><span class="text-secondary fw-bold" th:text="${user.birthday}"></span>
+                            </div>
+                            <div class="col-12">
+                                <span class="text-success me-2 fw-bold">Gender:</span><span class="text-secondary fw-bold" th:text="${user.gender}"></span>
+                            </div>
+                            <div class="col-12">
+                                <span class="text-success me-2 fw-bold">Locale:</span><span class="text-secondary fw-bold" th:text="${user.locale}"></span>
+                            </div>
+                            <div class="col-12">
+                                <span class="text-success me-2 fw-bold">Hometown:</span><span class="text-secondary fw-bold" th:text="${user.home}"></span>
+                            </div>
+                            <div class="col-12">
+                                <span class="text-success me-2 fw-bold">Location:</span><span class="text-secondary fw-bold" th:text="${user.location}"></span>
+                            </div>
+                            <div class="col-12">
+                                <span class="text-success me-2 fw-bold">Profile link:</span><span class="text-secondary fw-bold" th:text="${user.link}"></span>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script>
+                const modal = new bootstrap.Modal('#staticBackdrop');
+                modal.show();
+            </script>
+        </div>
+        <div th:if="${param.userNotFound}">
+
+            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel">Search result</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="removeParamFromURL('userNotFound')"></button>
+                        </div>
+                        <div class="modal-body col-12">
+                            <h3 class="text-danger">No resul was found.</h3>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="removeParamFromURL('userNotFound')" >Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script>
+                const modal = new bootstrap.Modal('#staticBackdrop');
+                modal.show();
+            </script>
+        </div>
+        <div th:if="${param.Oops}">
+
+            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel">Error</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="removeParamFromURL('Oops')"></button>
+                        </div>
+                        <div class="modal-body col-12">
+                            <h3 class="text-danger">Oops! something went wrong.</h3>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="removeParamFromURL('Oops')" >Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script>
+                const modal = new bootstrap.Modal('#staticBackdrop');
+                modal.show();
+            </script>
+        </div>
+        <script src="/js/script.js"></script>
+        <div class="modal fade" id="static_Backdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="static_BackdropLabel">Please wait</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="location('/')"></button>
+                    </div>
+                    <div class="d-flex justify-content-start align-items-center">
+                        <div class="spinner-border text-primary ms-2 mb-2" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <div class="modal-body col-12">
+                            <h3 class="text-primary">Searching...</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

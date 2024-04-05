@@ -1,0 +1,12 @@
+<form id="search-form" class="row g-3 mt-4" action="/searchbylastname" method="get">
+    <div class="form-floating mb-3">
+        <input type="text" onchange="inputValidation(this)" class="form-control" name="lastname" id="floatingInput" placeholder="123456789" required>
+        <div class="invalid-feedback">
+            Please enter the last name.
+        </div>
+        <label style="margin-left: 5px" for="floatingInput">Last name</label>
+    </div>
+    <div class="col-12">
+        <button onclick="loading()" type="submit" class="btn btn-primary">Search</button>
+    </div>
+</form>

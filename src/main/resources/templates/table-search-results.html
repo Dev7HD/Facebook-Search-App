@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="navbar.html"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Search results</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="card">
+            <div th:text="'Search results by last name: Total results : ' + ${totalResults}" class="card-header"></div>
+            <div class="card-body">
+                <table class="table table-hover table-striped rounded rounded-pill">
+                        <thead class="sticky-top">
+                        <tr>
+                            <th class="text-center" scope="col">Id</th>
+                            <th class="text-center" scope="col">Phone</th>
+                            <th class="text-center" scope="col">First name</th>
+                            <th class="text-center" scope="col">Last name</th>
+                            <th class="text-center" scope="col">Email</th>
+                            <th class="text-center" scope="col">Birthday</th>
+                            <th class="text-center" scope="col">Gender</th>
+                            <th class="text-center" scope="col">Locale</th>
+                            <th class="text-center" scope="col">Hometown</th>
+                            <th class="text-center" scope="col">Location</th>
+                            <th class="text-center" scope="col">Link</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="user:${users}">
+                            <th scope="row">
+                                <a th:text="${user.id}" th:href="'https://www.facebook.com/' + ${user.id}" target="_blank"></a>
+                            </th>
+                            <td th:text="'+' + ${user.phone}"></td>
+                            <td th:text="${user.firstName}"></td>
+                            <td th:text="${user.lastName}"></td>
+                            <td th:text="${user.email} != null ? ${user.email} : 'No data'" th:class="${user.email} == null ? 'text-danger' : 'text-secondary'" ></td>
+                            <td th:text="${user.birthday} != null ? ${user.birthday} : 'No data'" th:class="${user.birthday} == null ? 'text-danger' : 'text-secondary'"></td>
+                            <td th:text="${user.gender} != null ? ${user.gender} : 'No data'" th:class="${user.gender} == null ? 'text-danger' : 'text-secondary'"></td>
+                            <td th:text="${user.locale} != null ? ${user.locale} : 'No data'" th:class="${user.locale} == null ? 'text-danger' : 'text-secondary'"></td>
+                            <td th:text="${user.home} != null ? ${user.home} : 'No data'" th:class="${user.home} == null ? 'text-danger' : 'text-secondary'"></td>
+                            <td th:text="${user.location} != null ? ${user.location} : 'No data'" th:class="${user.location} == null ? 'text-danger' : 'text-secondary'"></td>
+                            <td th:text="${user.link} != null ? ${user.link} : 'No data'" th:class="${user.link} == null ? 'text-danger' : 'text-secondary'"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                <ul class="nav nav-pills" th:if="${pages > 1}">
+                    <li th:each="page:${#numbers.sequence(1,pages,1)}">
+                        <a
+                                th:text="${page}"
+                                th:class="${page == currentPage + 1 ? 'btn btn-secondary me-1' : 'btn btn-outline-secondary me-1'}"
+                                th:href="@{searchby_lastname(page=${page}-1,firstname=${firstname},lastname=${lastname},pages=${pages},t=${totalResults})}"
+                        ></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
